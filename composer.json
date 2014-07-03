@@ -1,7 +1,7 @@
 {
-    "name": "gkralik/smarty-module",
+    "name": "milqmedia/smarty-module",
     "description": "Smarty template engine module for Zend Framework 2",
-    "homepage": "https://github.com/gkralik/SmartyModule",
+    "homepage": "https://github.com/milqmedia/SmartyModule",
     "type": "library",
     "license": "MIT",
     "keywords": [
