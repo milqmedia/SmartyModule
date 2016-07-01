@@ -23,6 +23,9 @@ class SmartyRendererFactory implements  FactoryInterface {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $smarty = new \Smarty();
+        
+        \Smarty::muteExpectedErrors();
+        
         $config = $serviceLocator->get('Config');
         if (isset($config['view_manager']) && isset($config['view_manager']['smarty_defaults'])) {
             $smartyOptions = $config['view_manager']['smarty_defaults'];

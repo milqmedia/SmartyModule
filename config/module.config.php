@@ -23,7 +23,7 @@ return array(
             'SmartyStrategy'
         ),
         'smarty_defaults' => array(
-            'compile_dir' => $dataDir . '/SmartyModule/templates_c',
+            'compile_dir' => realpath($dataDir . '/SmartyModule/templates_c'),
             'error_reporting' => E_ERROR
         ),
     ),
