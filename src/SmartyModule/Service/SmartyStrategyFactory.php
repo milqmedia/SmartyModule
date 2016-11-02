@@ -5,13 +5,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\FactoryInterface;
 use SmartyModule\View\Strategy\SmartyStrategy;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: Nikolay
- * Date: 23.01.13
- * Time: 13:39
- */
 class SmartyStrategyFactory implements  FactoryInterface {
 
     /**
@@ -19,11 +12,15 @@ class SmartyStrategyFactory implements  FactoryInterface {
      *
      * @param ServiceLocatorInterface $serviceLocator
      * @return SmartyStrategy
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+     */    
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = NULL)
     {
-        $smartyRenderer = $serviceLocator->get('SmartyRenderer');
-        $smartyStrategy = new SmartyStrategy($smartyRenderer);
-        return $smartyStrategy;
+        $smartyRenderer = $container->get('SmartyRenderer');
+        return new SmartyStrategy($smartyRenderer);
+    }
+
+    public function createService(ServiceLocatorInterface $services)
+    {
+        return $this($services, 'SmartyRenderer');
     }
 }
