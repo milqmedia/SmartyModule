@@ -13,20 +13,16 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class SmartyViewResolverFactory implements FactoryInterface
 {
-    /**
-     * Create the aggregate view resolver
-     *
-     * Creates a Zend\View\Resolver\AggregateResolver and attaches the template
-     * map resolver and path stack resolver
-     *
-     * @param  ServiceLocatorInterface $serviceLocator
-     * @return ViewResolver\AggregateResolver
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = NULL)
     {
         $resolver = new ViewResolver\AggregateResolver();
         $resolver->attach($serviceLocator->get('SmartyViewTemplateMapResolver'));
         $resolver->attach($serviceLocator->get('SmartyViewTemplatePathStack'));
         return $resolver;
+    }
+    
+    public function createService(ServiceLocatorInterface $services)
+    {
+        return $this($services, 'SmartyRenderer');
     }
 }
