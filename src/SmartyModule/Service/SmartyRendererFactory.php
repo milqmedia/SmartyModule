@@ -14,19 +14,20 @@ use SmartyModule\View\Renderer\SmartyRenderer;
  */
 class SmartyRendererFactory implements  FactoryInterface {
 
+  
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+     * @return SmartyStrategy
+     */    
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = NULL)
     {
         $smarty = new \Smarty();
         
         \Smarty::muteExpectedErrors();
         
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         if (isset($config['view_manager']) && isset($config['view_manager']['smarty_defaults'])) {
             $smartyOptions = $config['view_manager']['smarty_defaults'];
             if (isset($config['view_manager']['smarty'])) {
@@ -42,13 +43,18 @@ class SmartyRendererFactory implements  FactoryInterface {
             }
         }
 
-        $resolver = $serviceLocator->get('SmartyViewResolver');
-        $helpers = $serviceLocator->get('ViewHelperManager');
+        $resolver = $container->get('SmartyViewResolver');
+        $helpers = $container->get('ViewHelperManager');
 
         $renderer = new SmartyRenderer();
         $renderer ->setSmarty($smarty);
         $renderer ->setResolver($resolver);
         $renderer ->setHelperPluginManager($helpers);
         return $renderer;
+    }
+
+    public function createService(ServiceLocatorInterface $services)
+    {
+        return $this($services, 'SmartyRenderer');
     }
 }
