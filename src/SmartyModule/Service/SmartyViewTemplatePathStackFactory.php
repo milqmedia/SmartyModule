@@ -16,15 +16,9 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class SmartyViewTemplatePathStackFactory implements FactoryInterface
 {
 
-    /**
-     * Create service
-     *
-     * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(\Interop\Container\ContainerInterface $container, $requestedName, array $options = NULL)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $container->get('Config');
         $templatePathStack = new ViewResolver\TemplatePathStack();
         if (is_array($config) && isset($config['view_manager'])) {
             $config = $config['view_manager'];
@@ -37,6 +31,11 @@ class SmartyViewTemplatePathStackFactory implements FactoryInterface
         }
 
         return $templatePathStack;
+    }
+    
+    public function createService(ServiceLocatorInterface $services)
+    {
+        return $this($services, 'SmartyRenderer');
     }
 
 }
