@@ -140,8 +140,16 @@ class SmartyRenderer extends PhpRenderer
                     $this->__template
                 ));
             }
-            $this->smarty->setTemplateDir(dirname($this->__file));
-            $this->__content = $this->smarty->fetch($this->__file);
+            
+            try {
+                $this->smarty->setTemplateDir(dirname($this->__file));
+                $this->__content = $this->smarty->fetch($this->__file);
+
+            } catch(\Exception $e) {
+
+                var_dump($e);
+                exit;
+            }
         }
         
         $this->setVars(array_pop($this->__varsCache));
